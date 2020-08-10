@@ -2,15 +2,15 @@
   <q-page>
     <div id="linha" class="q-pa-md">
       <div>
-        <imagens :imagens="hospedagem.img"/>
+        <imagens :imagens="img"/>
       </div>
 
       <div class="q-pl-md">
 
         <div class="q-mb-sm">
-          <div class="q-mt-xs q-mb-xs">Hospedagem: {{$route.params.id}}</div>
+          <div class="q-mt-xs q-mb-xs">Hospedagem n: {{$route.params.id}}</div>
           <informacoes :informacoes="hospedagem"/>
-          <div>(Preço médio/região: R${{ mediaPreco.price | preco }}/Noite)</div>
+          <div v-if="mediaPreco.price">(Preço médio/região: R${{ mediaPreco.price | preco }}/Noite)</div>
         </div>
 
         <q-form @submit.prevent="verDisponibilidade()">
@@ -66,6 +66,7 @@
 <script>
 import {mapActions} from 'vuex'
 import { date } from 'quasar'
+import axios from 'axios'
 
 export default {
   name: 'PageHospedagem',
@@ -80,9 +81,7 @@ export default {
         entrada: '',
         saida:''
       },
-      hospedagem: {
-        "id":2539,
-        "img": {
+      img: {
           1:{
             "id": 1,
             "path": "https://www.j8.com.br/vista.imobi/fotos/59006/ij8imovei59006_191198.jpg"
@@ -90,28 +89,10 @@ export default {
           2:{
             "id": 2,
             "path": "https://www.incorposul.com.br/wp-content/uploads/2019/08/cropped-como-comprar-um-apartamento-1-1024x576.jpg"
-          },
-        },
-        "name":"Clean & quiet apt home by the park",
-        "host_id":2787,
-        "host_name":"John",
-        "neighbourhood":"Kensington",
-        "latitude":40.64749,
-        "longitude":-73.97237,
-        "room_type":"Private room",
-        "price":149,
-        "minimum_nights":1,
-        "number_of_reviews":9,
-        "last_review":"2018-10-19",
-        "reviews_per_month":0.21,
-        "calculated_host_listings_count":6,
-        "availability_365":365,
-        "neighbourhood_group":"Brooklyn"
+          }
       },
+      hospedagem: '',
       mediaPreco: {
-        "neighbourhood_group":"Brooklyn",
-        "room_type":"Private room",
-        "price":73.3495619524
       }
     }
   },
@@ -122,15 +103,40 @@ export default {
         center: { lat: this.hospedagem.latitude, lng: this.hospedagem.longitude }
       }
     },
-    media() {
-      
-    }
   },
   methods: {
     ...mapActions('carrinho', ['adicionarItem']),
     verDisponibilidade() {
       this.dataDisponivel = true
+    },
+    getHospedagem () {
+      // console.log(this.$route.params.id)
+      axios
+        .get('http://127.0.0.1:8000/api/residencias/' + this.$route.params.id + '/')
+        .then(response => {
+          console.log(response.data)
+          this.hospedagem = response.data
+          this.getMediaPreco()
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    },
+    getMediaPreco () {
+      console.log(this.hospedagem.neighbourhood_group)
+      console.log(this.hospedagem.room_type)
+      axios
+        .get('http://127.0.0.1:8000/api/medias/?neighbourhood_group='+this.hospedagem.neighbourhood_group+'&room_type='+this.hospedagem.room_type)
+        .then(response => {
+          this.mediaPreco = response.data
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
+  },
+  mounted() {
+    this.getHospedagem(this.$route.params.id)
   },
   filters: {
     dataBonita(value) {

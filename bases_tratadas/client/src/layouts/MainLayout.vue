@@ -72,6 +72,11 @@ const linksData = [
     icon: 'list',
     link: '/hospedagens'
   },
+  {
+    title: 'Media de preco',
+    icon: 'monetization_on',
+    link: '/media'
+  },
 ];
 
 export default {
