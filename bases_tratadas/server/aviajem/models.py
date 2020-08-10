@@ -29,3 +29,11 @@ class Media(models.Model):
 
     def __str__(self):
         return self.neighbourhood_group
+
+class Like(models.Model):
+
+    residencia = models.OneToOneField(Residencias, related_name='likes', on_delete=models.CASCADE)
+    status = models.BooleanField()
+
+    def __str__(self):
+        return self.residencia

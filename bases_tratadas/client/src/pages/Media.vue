@@ -16,7 +16,7 @@
           :key="media.id"
           clickable
           v-ripple>
-          <q-item-section><b>{{ media.neighbourhood_group }}</b> R${{ media.price }}</q-item-section>
+          <q-item-section><b>{{media.room_type}} no {{ media.neighbourhood_group }}</b> R${{ media.price }}</q-item-section>
         </q-item>
       </q-list>
     </transition>

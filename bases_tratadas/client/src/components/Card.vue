@@ -8,8 +8,8 @@
                 class="my-card q-ma-sm"
                 >
                 <q-btn
-                    :color="liked | color"
-                    @click="like(liked)"
+                    :color="likeData.status | color"
+                    @click="like()"
                     class="absolute"
                     flat
                     round
@@ -36,17 +36,56 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     props: ['hospedagem'],
     data() {
         return {
-            liked: false,
-            img: 'https://www.j8.com.br/vista.imobi/fotos/59006/ij8imovei59006_191198.jpg'
+            img: 'https://www.j8.com.br/vista.imobi/fotos/59006/ij8imovei59006_191198.jpg',
+            likeData: ''
         }
     },
+    mounted() {
+        this.setLikeData()
+    },
     methods: {
+        setLikeData(){
+            if(this.hospedagem.likes == null){
+                this.likeData = {
+                    id: '',
+                    residencia: this.hospedagem.id,
+                    status: false,
+                }
+            }
+            else {
+                this.likeData = this.hospedagem.likes
+            }
+        },
         like(){
-            this.liked = !this.liked
+            if(this.likeData.status){
+                // console.log(this.likeData.id)
+                axios
+                .delete('http://127.0.0.1:8000/api/like/' + this.hospedagem.likes.id + '/')
+                .then(response => {
+                    this.likeData.status = false
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+            else {
+                this.likeData.status = true
+                axios
+                .post('http://127.0.0.1:8000/api/like/', this.likeData)
+                .then(response => {
+                    // console.log(response)
+                    this.likeData.id = response.data.id
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
         }
     },
     filters: {

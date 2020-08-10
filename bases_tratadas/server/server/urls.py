@@ -22,6 +22,7 @@ from aviajem import views
 router = routers.DefaultRouter()
 router.register(r'residencias', views.ResidenciasViewSets)
 router.register(r'medias', views.MediaViewSets)
+router.register(r'like', views.LikeViewSets)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
