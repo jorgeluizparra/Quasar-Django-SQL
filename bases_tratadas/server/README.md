@@ -7,9 +7,6 @@ You will need python and pip installed in your machine.
 
 Recomended: Create virtual enviroment
 ```bash
-cd server
-```
-```bash
 pip install -r requirements.txt
 ```
 
