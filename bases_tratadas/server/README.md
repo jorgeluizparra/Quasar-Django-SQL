@@ -6,15 +6,17 @@
 You will need python and pip installed in your machine.
 
 Recomended: Create virtual enviroment
-
-### Install requirements
+```bash
 cd server
+```
+```bash
 pip install -r requirements.txt
-
-
+```
 
 ## Run the application
+```bash
 py manage.py runserver
+```
 
 ### Links:
 http://127.0.0.1:8000/admin/
