@@ -1,29 +1,35 @@
 <template>
   <q-page class="q-pa-sm">
-    <transition
-      appear
-      enter-active-class="animated fadeInLeft"
-    >
-      <imagens :imagens="imagens"/>
-    </transition>
-    <transition
-      appear
-      enter-active-class="animated fadeInRight"
-    >
-      <div class="q-mt-sm">
-        <q-form>
-          <q-input
-            filled
-            v-model="pesquisa"
-            label="Qual é o seu destino ?" />
-          <q-btn
-            class="q-mt-sm"
-            type="submit"
-            color="primary"
-            label="Pesquisar" />
-        </q-form>
+    <div class="row">
+      <div class="col">
+        <transition
+          appear
+          enter-active-class="animated fadeInLeft"
+        >
+          <imagens :imagens="imagens"/>
+        </transition>
       </div>
-    </transition>
+      <div class="col q-pl-sm">
+        <transition
+          appear
+          enter-active-class="animated fadeInRight"
+        >
+          <div>
+            <q-form>
+              <q-input
+                filled
+                v-model="pesquisa"
+                label="Qual é o seu destino ?" />
+              <q-btn
+                class="q-mt-sm"
+                type="submit"
+                color="primary"
+                label="Pesquisar" />
+            </q-form>
+          </div>
+        </transition>
+      </div>
+    </div>
   </q-page>
 </template>
 

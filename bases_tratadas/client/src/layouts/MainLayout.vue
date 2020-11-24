@@ -10,12 +10,13 @@
           flat
           color="white"
           round
+          to='/carrinho'
           icon="shopping_cart"
           class="q-ma-sm">
             <q-badge
               color="black"
               floating>
-              {{itensCarrinho}}
+              {{itensCarrinho.length}}
             </q-badge>
         </q-btn>
       </q-toolbar>
@@ -75,7 +76,7 @@ const linksData = [
   {
     title: 'Media de preco',
     icon: 'monetization_on',
-    link: '/media'
+    link: '/medias-preços'
   },
 ];
 
